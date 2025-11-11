@@ -108,6 +108,26 @@ class PersonalAssistantHandler:
         return message
 
     @input_error
+    def add_address(self, args: list, book: address_book.AddressBook) -> str:
+        name, address, *_ = args
+
+        args.remove(name) 
+        args.remove(address)
+        address +=" " + " ".join(args)
+
+        name = name.capitalize()
+        record = book.find(name)
+
+        message = f"Contact {name} updated."
+        if record is None:
+            record = address_book.Record(name)
+            book.add_record(record)
+            message = f"Contact {name} added."
+        
+        record.add_address(address)
+        return message
+
+    @input_error
     def change_phone(self, args: list, book: address_book.AddressBook) -> str:
         name, old_phone, new_phone, *_ = args
 

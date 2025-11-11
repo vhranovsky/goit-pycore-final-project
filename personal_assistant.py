@@ -70,6 +70,8 @@ class PersonalAssistant:
                 print(self.__assistant_handler__.add_email(args, self.__abook__))
             elif command == "add-birthday":
                 print(self.__assistant_handler__.add_birthday(args, self.__abook__))
+            elif command == "add-address":
+                print(self.__assistant_handler__.add_address(args, self.__abook__))
             elif command == "get-birthday":
                 print(self.__assistant_handler__.get_birthday(args, self.__abook__))
             elif command == "get-birthdays":
@@ -86,6 +88,8 @@ class PersonalAssistant:
                 print(self.__assistant_handler__.change_email(args, self.__abook__))
             elif command == "change-birthday":
                 print(self.__assistant_handler__.add_birthday(args, self.__abook__))
+            elif command == "change-address":
+                print(self.__assistant_handler__.add_address(args, self.__abook__))
             elif command == "clear":
                 self.__assistant_handler__.clear_console()
             else:
