@@ -57,6 +57,8 @@ class PersonalAssistantHandler:
         name = args[0]
         phone = args[1] if len(args) > 1 else None
         email = args[2] if len(args) > 2 else None
+        bday = args[3] if len(args) > 3 else None
+        address = args[4] if len(args) > 4 else None
 
         name = name.capitalize()
         record = book.find(name)
@@ -72,6 +74,18 @@ class PersonalAssistantHandler:
 
         if email is not None:
             record.add_email(email)
+
+        if bday is not None:
+            record.add_birthday(bday)
+
+        if address is not None:
+            args.remove(name)
+            args.remove(phone)
+            args.remove(email)
+            args.remove(bday)
+            args.remove(address)
+            address +=" " + " ".join(args)
+            record.add_address(address)
 
         return message
 
