@@ -4,6 +4,7 @@ import pickle
 import os
 from personal_assistant_handler import PersonalAssistantHandler
 
+
 # Наш бот
 class PersonalAssistant:
     def __init__(self):
@@ -18,14 +19,14 @@ class PersonalAssistant:
                 return pickle.load(f)
         except FileNotFoundError:
             return address_book.AddressBook()
-        
+
     def __load_nbook__(self, file_name: str) -> note_book.NoteBook:
         try:
             with open(file_name, "rb") as f:
                 return pickle.load(f)
         except FileNotFoundError:
             return note_book.NoteBook()
-    
+
     def __save__(self, save_folder_path: str = None):
         if save_folder_path is None:
             save_folder_path = os.path.expanduser("~")
@@ -55,7 +56,7 @@ class PersonalAssistant:
         while True:
             user_input = input("Enter a command: ")
             command, *args = self.__parse_input__(user_input)
-            
+
             if command in ["close", "exit"]:
                 print("Good bye!")
                 break
@@ -96,6 +97,6 @@ class PersonalAssistant:
         self.__main_run__()
         self.__save__()
 
+
 if __name__ == "__main__":
     PersonalAssistant().run()
-    

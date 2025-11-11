@@ -1,7 +1,6 @@
 import address_book
 import note_book
 import os
-import re
 
 
 INVALID_PHONE = "Inavlid phone number! " \
@@ -91,7 +90,7 @@ class PersonalAssistantHandler:
 
         record.add_email(email)
         return message
-    
+
     @input_error
     def add_phone(self, args: list, book: address_book.AddressBook) -> str:
         name, phone, *_ = args
@@ -125,7 +124,7 @@ class PersonalAssistantHandler:
 
         record.edit_phone(old_phone, new_phone)
         return f"Phone {old_phone} changed to {new_phone} for {name}."
-    
+
     @input_error
     def change_email(self, args: list, book: address_book.AddressBook) -> str:
         name, old_email, new_email, *_ = args
@@ -170,7 +169,7 @@ class PersonalAssistantHandler:
 
         record = book.find(name)
         return record.birthday if record.birthday is not None else "Birthday record absent."
-    
+
     @input_error
     def get_contact_info(self, args: list, book: address_book.AddressBook) -> str:
         name = args[0]
@@ -185,5 +184,3 @@ class PersonalAssistantHandler:
 
     def get_all_contacts(self, args: list, book: address_book.AddressBook) -> str:
         return f"{book}"
-
-    
