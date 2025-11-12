@@ -137,3 +137,6 @@ class PersonalAssistant:
 
 if __name__ == "__main__":
     PersonalAssistant().run()
+
+def run():
+    PersonalAssistant().run()

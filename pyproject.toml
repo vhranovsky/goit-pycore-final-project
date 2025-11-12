@@ -1,0 +1,13 @@
+[project]
+name = "personal_assistant"
+version = "0.0.1000"
+authors = [{name = "Viktor", email = "vhranovskiy84@gmail.com"}]
+description = "Фінальний проєкт з Python Programming (Neoversity)" 
+readme = "README.md"
+requires-python = ">=3.13.7"
+keywords = ["Assistant", "Contacts", "AddressBook", "NoteBook", "Neoversity", "Python", "Programming"]
+
+[project.dependencies]
+
+[project.scripts]
+my_command = "personal_assistant.py:run"

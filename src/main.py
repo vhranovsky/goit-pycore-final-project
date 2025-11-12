@@ -1,8 +1,8 @@
-from personal_assistant import PersonalAssistant
+import personal_assistant
 
 
 def main():
-    PersonalAssistant().run()
+    personal_assistant.run()
 
 
 if __name__ == "__main__":
