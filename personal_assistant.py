@@ -2,8 +2,8 @@ import address_book
 import note_book
 import pickle
 import os
-from personal_assistant_handler import PersonalAssistantHandler
-from personal_assistant_handler import input_error
+from personal_assistant_address_book_handler import PersonalAssistantAddressBookHandler
+from general import input_error
 import difflib
 
 # Наш бот
@@ -11,7 +11,7 @@ class PersonalAssistant:
     def __init__(self):
         self.__abook__ = None
         self.__nbook__ = None
-        self.__assistant_handler__ = PersonalAssistantHandler()
+        self.__assistant_handler__ = PersonalAssistantAddressBookHandler()
 
         self.__sys_commands__= ["close", "exit", "bye", "bye-bye"]
 

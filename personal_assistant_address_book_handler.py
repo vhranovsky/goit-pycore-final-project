@@ -3,7 +3,7 @@ import os
 from general import input_error
 
 
-class PersonalAssistantHandler:
+class PersonalAssistantAddressBookHandler:
     def __init__(self):
         pass
 
