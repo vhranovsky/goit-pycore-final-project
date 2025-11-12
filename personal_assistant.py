@@ -78,8 +78,14 @@ class PersonalAssistant:
         command, *args = self.__parse_input__(user_input)
         saved_args = args.copy()
 
-        if command in self.__abook_commands__:
+        if command in self.__nbook_commands__:
+            print(self.__abook_commands__[command](args, self.__nbook__))
+            if not command.startswith("get"):
+                self.__save__()
+        elif command in self.__abook_commands__:
             print(self.__abook_commands__[command](args, self.__abook__))
+            if not command.startswith("get"):
+                self.__save__()
         elif command in self.__sys_commands__:
             print("Good bye!")
             return True
