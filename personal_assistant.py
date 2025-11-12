@@ -3,6 +3,7 @@ import note_book
 import pickle
 import os
 from personal_assistant_handler import PersonalAssistantHandler
+from personal_assistant_handler import input_error
 import difflib
 
 # Наш бот
@@ -65,11 +66,13 @@ class PersonalAssistant:
         self.__nbook__ = self.__load_nbook__(save_folder_path+"/nbook.pkl")
 
     # handlers
+    @input_error
     def __parse_input__(self, user_input):
         cmd, *args = user_input.split()
         cmd = cmd.strip().lower()
         return cmd, *args
 
+    @input_error
     def get_suggestion(self, command) -> list | None:
         # cutoff=0.6 означає, що команда має бути схожа принаймні на 60%
         matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=1, cutoff=0.6)
@@ -93,7 +96,7 @@ class PersonalAssistant:
             else:
                 print("Invalid command.")
                 suggestions_list = self.get_suggestion(command)
-                if suggestions_list is not None:
+                if suggestions_list is not None and len(suggestions_list) > 0:
                     print(f"    You may have tried the following commands: {suggestions_list}")
 
     # public methods
