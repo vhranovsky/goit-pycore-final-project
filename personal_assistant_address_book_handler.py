@@ -54,7 +54,7 @@ class PersonalAssistantAddressBookHandler:
             args.remove(email)
             args.remove(bday)
             args.remove(address)
-            address +=" " + " ".join(args)
+            address += " " + " ".join(args)
             record.add_address(address)
 
         return message
@@ -95,9 +95,9 @@ class PersonalAssistantAddressBookHandler:
     def add_address(self, args: list, book: address_book.AddressBook) -> str:
         name, address, *_ = args
 
-        args.remove(name) 
+        args.remove(name)
         args.remove(address)
-        address +=" " + " ".join(args)
+        address += " " + " ".join(args)
 
         name = name.capitalize()
         record = book.find(name)
@@ -107,7 +107,7 @@ class PersonalAssistantAddressBookHandler:
             record = address_book.Record(name)
             book.add_record(record)
             message = f"Contact {name} added."
-        
+
         record.add_address(address)
         return message
 
@@ -185,7 +185,7 @@ class PersonalAssistantAddressBookHandler:
     @input_error
     def birthdays(self, args: list, book: address_book.AddressBook) -> str:
         try:
-            days : int = int(args[0]) if len(args)>0 else 7
+            days: int = int(args[0]) if len(args) > 0 else 7
         except Exception:
             days = 7
         finally:

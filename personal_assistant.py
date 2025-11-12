@@ -6,6 +6,7 @@ from personal_assistant_address_book_handler import PersonalAssistantAddressBook
 from general import input_error
 import difflib
 
+
 # Наш бот
 class PersonalAssistant:
     def __init__(self):
@@ -13,26 +14,26 @@ class PersonalAssistant:
         self.__nbook__ = None
         self.__assistant_handler__ = PersonalAssistantAddressBookHandler()
 
-        self.__exit_commands__= ["close", "exit", "bye", "bye-bye"]
+        self.__exit_commands__ = ["close", "exit", "bye", "bye-bye"]
 
-        self.__abook_commands__= {
-            "add" : self.__assistant_handler__.add_contact,
-            "add-phone" : self.__assistant_handler__.add_phone,
-            "add-email" : self.__assistant_handler__.add_email,
-            "add-birthday" : self.__assistant_handler__.add_birthday,
-            "add-address" : self.__assistant_handler__.add_address,
-            "get-birthday" : self.__assistant_handler__.get_birthday,
-            "get-birthdays" : self.__assistant_handler__.birthdays,
-            "get-phone" : self.__assistant_handler__.get_phone_by_name,
-            "get-all" : self.__assistant_handler__.get_all_contacts,
-            "get-info" : self.__assistant_handler__.get_contact_info,
-            "change-phone" : self.__assistant_handler__.change_phone,
-            "change-email" : self.__assistant_handler__.change_email,
-            "change-birthday" : self.__assistant_handler__.add_birthday,
-            "change-address" : self.__assistant_handler__.add_address
+        self.__abook_commands__ = {
+            "add": self.__assistant_handler__.add_contact,
+            "add-phone": self.__assistant_handler__.add_phone,
+            "add-email": self.__assistant_handler__.add_email,
+            "add-birthday": self.__assistant_handler__.add_birthday,
+            "add-address": self.__assistant_handler__.add_address,
+            "get-birthday": self.__assistant_handler__.get_birthday,
+            "get-birthdays": self.__assistant_handler__.birthdays,
+            "get-phone": self.__assistant_handler__.get_phone_by_name,
+            "get-all": self.__assistant_handler__.get_all_contacts,
+            "get-info": self.__assistant_handler__.get_contact_info,
+            "change-phone": self.__assistant_handler__.change_phone,
+            "change-email": self.__assistant_handler__.change_email,
+            "change-birthday": self.__assistant_handler__.add_birthday,
+            "change-address": self.__assistant_handler__.add_address
          }
-        
-        self.__nbook_commands__= {
+
+        self.__nbook_commands__ = {
         }
 
     # Приватні методи
@@ -125,7 +126,7 @@ class PersonalAssistant:
         if user_input.lower() == "y":
             print(params)
             return self.__run_command__(params)
-        
+
         return False
 
     def run(self):
