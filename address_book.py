@@ -29,7 +29,6 @@ class Field:
 
 # Клас для зберігання імені. Успадковує Field.
 class Name(Field):
-    """"""
     pass
 
 
