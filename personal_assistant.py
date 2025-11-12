@@ -76,7 +76,6 @@ class PersonalAssistant:
 
     def __run_command__(self, user_input: str) -> bool:
         command, *args = self.__parse_input__(user_input)
-        saved_args = args.copy()
 
         if command in self.__nbook_commands__:
             print(self.__abook_commands__[command](args, self.__nbook__))
@@ -98,7 +97,7 @@ class PersonalAssistant:
             suggestions_list = self.get_suggestion(command)
             if suggestions_list is not None and len(suggestions_list) > 0:
                 print(f"    Did you mean: {", ".join(suggestions_list)}")
-                return self.apply_suggestion(suggestions_list[0]+" "+" ".join(saved_args))
+                return self.apply_suggestion(suggestions_list[0]+" "+" ".join(args))
 
         return False
 

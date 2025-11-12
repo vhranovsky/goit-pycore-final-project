@@ -55,6 +55,8 @@ class PersonalAssistantHandler:
     @input_error
     def add_contact(self, args: list, book: address_book.AddressBook) -> str:
         name = args[0]
+
+        # this block need to add clear contact
         phone = args[1] if len(args) > 1 else None
         email = args[2] if len(args) > 2 else None
         bday = args[3] if len(args) > 3 else None
