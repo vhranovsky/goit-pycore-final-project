@@ -3,6 +3,7 @@ import note_book
 import pickle
 import os
 from personal_assistant_address_book_handler import PersonalAssistantAddressBookHandler
+from personal_assistant_note_book_handler import PersonalAssistantNoteBookHandler
 from general import input_error
 import difflib
 
@@ -13,6 +14,7 @@ class PersonalAssistant:
         self.__abook__ = None
         self.__nbook__ = None
         self.__assistant_handler__ = PersonalAssistantAddressBookHandler()
+        self.__note_handler__ = PersonalAssistantNoteBookHandler()
 
         self.__exit_commands__ = ["close", "exit", "bye", "bye-bye"]
 
@@ -34,6 +36,16 @@ class PersonalAssistant:
          }
 
         self.__nbook_commands__ = {
+            "add-note":  self.__note_handler__.add_note,
+            "get-note":  self.__note_handler__.get_note,
+            "get-notes": self.__note_handler__.get_all_notes,
+            "change-note": self.__note_handler__.edit_note,
+            "delete-note": self.__note_handler__.delete_note,
+            "add-tag":    self.__note_handler__.add_tag,
+            "delete-tag": self.__note_handler__.remove_tag,
+            "get-notes-by-text": self.__note_handler__.search_notes,
+            "get-notes-by-tag":  self.__note_handler__.search_by_tag,
+            "get-notes-sorted-by-tags": self.__note_handler__.sort_by_tags,
         }
 
     # Приватні методи

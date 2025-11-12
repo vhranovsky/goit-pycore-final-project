@@ -207,6 +207,6 @@ class AddressBook(UserDict):
 
     def __str__(self):
         if not self.data:
-            return "Adress book is empty."
+            return "Address book is empty."
 
         return "\n".join(str(record) for record in self.data.values())

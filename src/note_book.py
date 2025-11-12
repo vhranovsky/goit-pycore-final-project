@@ -25,7 +25,7 @@ class Note:
         return tags[0] if len(tags) > 0 else None
 
     def remove_tag(self, tag_str: str) -> bool:
-        tag_to_remove = self.find_tag(str)
+        tag_to_remove = self.find_tag(tag_str)
         if tag_to_remove:
             self.tags.remove(tag_to_remove)
             return True
@@ -36,7 +36,7 @@ class Note:
         self.content.value = new_content
 
     def has_tag(self, tag_query: str) -> bool:
-        return self.find_tag(str) is not None
+        return self.find_tag(tag_query) is not None
 
     def __str__(self):
         tags_str = ", ".join(str(t) for t in self.tags) or "No tags"
