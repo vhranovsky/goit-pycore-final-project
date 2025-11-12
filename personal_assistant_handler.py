@@ -1,37 +1,6 @@
 import address_book
 import os
-
-
-INVALID_PHONE = "Inavlid phone number! " \
-    "Enter the phone number in the format 10 digits"
-INVALID_ARGUMENTS = "Enter valid arguments for the command."
-KEY_ERROR = "Record is missing!"
-INVALID_COMMAND = "Enter valid command."
-INVALID_BDAY = "Invalid date format. Use DD.MM.YYYY"
-INVALID_EMAIl = "Invalid email format. Use xxx@xxx.xx"
-
-
-def input_error(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except IndexError:
-            return INVALID_ARGUMENTS
-        except KeyError:
-            return KEY_ERROR
-        except address_book.ValidPhoneError:
-            return INVALID_PHONE
-        except address_book.ValidBdayError:
-            return INVALID_BDAY
-        except address_book.ValidEmailError:
-            return INVALID_EMAIl
-        except ValueError:
-            return INVALID_ARGUMENTS
-        except AttributeError:
-            return KEY_ERROR
-        except TypeError:
-            return KEY_ERROR
-    return inner
+from general import input_error
 
 
 class PersonalAssistantHandler:

@@ -1,28 +1,9 @@
 from collections import UserDict
 import re
 from datetime import datetime, timedelta
-
-
-# ============================= Блок винятків =============================
-# Базовий виняток для помилок валідації.
-class ValidError(Exception):
-    pass
-
-
-# Виняток для невалідного номера телефону.
-class ValidPhoneError(ValidError):
-    pass
-
-
-# Виняток для невалідної дати народження.
-class ValidBdayError(ValidError):
-    pass
-
-
-# Виняток для невалідної електронної пошти.
-class ValidEmailError(ValidError):
-    pass
-
+from general import ValidPhoneError
+from general import ValidEmailError
+from general import ValidBdayError
 
 # --- БЛОК ОСНОВНИХ КЛАСІВ AddressBook ---
 # Базовий клас для всіх полів (ім'я, телефон, дата народження).
