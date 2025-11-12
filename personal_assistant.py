@@ -13,7 +13,7 @@ class PersonalAssistant:
         self.__nbook__ = None
         self.__assistant_handler__ = PersonalAssistantAddressBookHandler()
 
-        self.__sys_commands__= ["close", "exit", "bye", "bye-bye"]
+        self.__exit_commands__= ["close", "exit", "bye", "bye-bye"]
 
         self.__abook_commands__= {
             "add" : self.__assistant_handler__.add_contact,
@@ -85,7 +85,7 @@ class PersonalAssistant:
             print(self.__abook_commands__[command](args, self.__abook__))
             if not command.startswith("get"):
                 self.__save__()
-        elif command in self.__sys_commands__:
+        elif command in self.__exit_commands__:
             print("Good bye!")
             return True
         elif command == "hello":
@@ -111,13 +111,12 @@ class PersonalAssistant:
     # public methods
     @input_error
     def get_suggestion(self, command) -> list | None:
-        # cutoff=0.6 означає, що команда має бути схожа принаймні на 50%
+        # cutoff=0.5 означає, що команда має бути схожа принаймні на 50%
         matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=1, cutoff=0.5)
         if len(matches) == 0:
             matches = difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=1, cutoff=0.5)
         if len(matches) == 0:
-            matches = difflib.get_close_matches(command, self.__sys_commands__, n=1, cutoff=0.5)
-
+            matches = difflib.get_close_matches(command, self.__exit_commands__, n=1, cutoff=0.5)
         return matches
 
     def apply_suggestion(self, params: str) -> bool:
