@@ -13,6 +13,8 @@ class PersonalAssistant:
         self.__nbook__ = None
         self.__assistant_handler__ = PersonalAssistantHandler()
 
+        self.__sys_commands__= ["close", "exit", "bye", "bye-bye"]
+
         self.__abook_commands__= {
             "add" : self.__assistant_handler__.add_contact,
             "add-phone" : self.__assistant_handler__.add_phone,
@@ -72,34 +74,56 @@ class PersonalAssistant:
         cmd = cmd.strip().lower()
         return cmd, *args
 
-    @input_error
-    def get_suggestion(self, command) -> list | None:
-        # cutoff=0.6 означає, що команда має бути схожа принаймні на 60%
-        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=1, cutoff=0.6)
-        return matches
+    def __run_command__(self, user_input: str) -> bool:
+        command, *args = self.__parse_input__(user_input)
+        saved_args = args.copy()
+
+        if command in self.__abook_commands__:
+            print(self.__abook_commands__[command](args, self.__abook__))
+        elif command in self.__sys_commands__:
+            print("Good bye!")
+            return True
+        elif command == "hello":
+            print("How can I help you?")
+        elif command == "clear":
+            self.__assistant_handler__.clear_console()
+        else:
+            print("Invalid command.")
+            suggestions_list = self.get_suggestion(command)
+            if suggestions_list is not None and len(suggestions_list) > 0:
+                print(f"    Did you mean: {", ".join(suggestions_list)}")
+                return self.apply_suggestion(suggestions_list[0]+" "+" ".join(saved_args))
+
+        return False
 
     def __main_run__(self):
         print("Welcome to the assistant bot!")
         while True:
             user_input = input("Enter a command: ")
-            command, *args = self.__parse_input__(user_input)
-
-            if command in self.__abook_commands__:
-                print(self.__abook_commands__[command](args, self.__abook__))
-            elif command in ["close", "exit"]:
-                print("Good bye!")
+            if self.__run_command__(user_input):
                 break
-            elif command == "hello":
-                print("How can I help you?")
-            elif command == "clear":
-                self.__assistant_handler__.clear_console()
-            else:
-                print("Invalid command.")
-                suggestions_list = self.get_suggestion(command)
-                if suggestions_list is not None and len(suggestions_list) > 0:
-                    print(f"    You may have tried the following commands: {suggestions_list}")
 
     # public methods
+    @input_error
+    def get_suggestion(self, command) -> list | None:
+        # cutoff=0.6 означає, що команда має бути схожа принаймні на 50%
+        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=1, cutoff=0.5)
+        if len(matches) == 0:
+            matches = difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=1, cutoff=0.5)
+        if len(matches) == 0:
+            matches = difflib.get_close_matches(command, self.__sys_commands__, n=1, cutoff=0.5)
+
+        return matches
+
+    def apply_suggestion(self, params: str) -> bool:
+        print(f"\nDo you want run this command: {params} \n[y]=yes [any key]=no")
+        user_input = input()
+        if user_input.lower() == "y":
+            print(params)
+            return self.__run_command__(params)
+        
+        return False
+
     def run(self):
         self.__load__()
         self.__main_run__()

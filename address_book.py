@@ -1,6 +1,6 @@
 from collections import UserDict
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 # ============================= Блок винятків =============================
@@ -172,14 +172,14 @@ class AddressBook(UserDict):
 
     def get_upcoming_birthdays(self, days: int = 7) -> list:
         result = []
-        curr_date = datetime.datetime.today().date()
+        curr_date: datetime.date = datetime.today().date()
         user_bday_date_corrected: datetime.date = None
 
         for key, record in self.data.items():
             if record.birthday is None:
                 continue
 
-            user_bday_date = record.birthday.value
+            user_bday_date: datetime.date = record.birthday.value
 
             if curr_date.month == 12 and user_bday_date.month == 1:
                 user_bday_date_corrected = user_bday_date.replace(year=curr_date.year+1)
@@ -189,7 +189,7 @@ class AddressBook(UserDict):
             time_delta = user_bday_date_corrected - curr_date
             if 0 <= time_delta.days <= days:
                 if user_bday_date_corrected.weekday() > 4:
-                    increment_days = datetime.timedelta(days=7-user_bday_date_corrected.weekday())
+                    increment_days = timedelta(days=7-user_bday_date_corrected.weekday())
                     user_bday_date_corrected += increment_days
 
                 time_delta = user_bday_date_corrected - curr_date
