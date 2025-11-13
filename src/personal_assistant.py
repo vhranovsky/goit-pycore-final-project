@@ -59,6 +59,8 @@ class PersonalAssistant:
             "get-notes-sorted-by-tags": self.__note_handler__.sort_by_tags,
         }
 
+        self.__pool_commands__ = [self.__abook_commands__, self.__nbook_commands__, self.__sys_commands__]
+
     # privat methods
     def __exit__(self, args) -> str:
         return "Bye Bye"
@@ -182,9 +184,10 @@ class PersonalAssistant:
     # public methods
     @input_error
     def get_suggestion(self, command: str, count: int = 1, prc: float = 0.6) -> list | None:
-        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=count, cutoff=max(0.2,min(1,prc)))
-        matches += difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=count, cutoff=max(0.2,min(1,prc)))
-        matches += difflib.get_close_matches(command, self.__sys_commands__, n=count, cutoff=max(0.2,min(1,prc)))
+        matches: list = []
+        for cmd_dic in self.__pool_commands__:
+            matches += difflib.get_close_matches(command, cmd_dic.keys(), n=count, cutoff=max(0.2,min(1,prc)))
+    
         return matches
 
     def apply_suggestion(self, params: str) -> bool:
