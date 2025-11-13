@@ -48,7 +48,13 @@ class PersonalAssistant:
             "get-notes-sorted-by-tags": self.__note_handler__.sort_by_tags,
         }
 
-    # Приватні методи
+    # privat methods
+    def __clear_console__(self):
+        if os.name == 'nt':  # For Windows
+            os.system('cls')
+        else:  # For macOS and Linux
+            os.system('clear')
+
     def __load_abook__(self, file_name: str) -> address_book.AddressBook:
         try:
             with open(file_name, "rb") as f:
@@ -108,7 +114,7 @@ class PersonalAssistant:
         elif command == "hello":
             print("How can I help you?")
         elif command == "clear":
-            self.__assistant_handler__.clear_console()
+            self.__clear_console__()
         else:
             print("Invalid command.")
             suggestions_list = self.get_suggestion(command)

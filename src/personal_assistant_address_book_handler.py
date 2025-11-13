@@ -1,5 +1,4 @@
 from . import address_book
-import os
 from .general import input_error
 
 
@@ -8,18 +7,6 @@ class PersonalAssistantAddressBookHandler:
         pass
 
     # handlers
-    def clear_console(self):
-        if os.name == 'nt':  # For Windows
-            os.system('cls')
-        else:  # For macOS and Linux
-            os.system('clear')
-
-    @input_error
-    def parse_input(self, user_input):
-        cmd, *args = user_input.split()
-        cmd = cmd.strip().lower()
-        return cmd, *args
-
     @input_error
     def add_contact(self, args: list, book: address_book.AddressBook) -> str:
         name = args[0]
