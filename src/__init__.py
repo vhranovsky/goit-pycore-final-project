@@ -1,1 +1,1 @@
-from .personal_assistant import run
+__version__ = "0.0.1000"

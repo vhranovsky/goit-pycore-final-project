@@ -8,6 +8,7 @@ from .general import input_error
 import difflib
 import re
 from pathlib import Path
+from . import __version__
 
 # Наш бот
 class PersonalAssistant:
@@ -24,7 +25,8 @@ class PersonalAssistant:
             "bye-bye": [self.__exit__, True],
             "hello": [(lambda args: "How can I help you?"), False],
             "clear": [self.__clear_console__, False],
-            "help": [self.__show_help__, False]
+            "help": [self.__show_help__, False],
+            "version": [(lambda args: __version__), False],
         }
 
         self.__abook_commands__ = {
