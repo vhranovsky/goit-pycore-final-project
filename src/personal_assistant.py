@@ -6,7 +6,8 @@ from .personal_assistant_address_book_handler import PersonalAssistantAddressBoo
 from .personal_assistant_note_book_handler import PersonalAssistantNoteBookHandler
 from .general import input_error
 import difflib
-
+import re
+from pathlib import Path
 
 # Наш бот
 class PersonalAssistant:
@@ -16,7 +17,15 @@ class PersonalAssistant:
         self.__assistant_handler__ = PersonalAssistantAddressBookHandler()
         self.__note_handler__ = PersonalAssistantNoteBookHandler()
 
-        self.__exit_commands__ = ["close", "exit", "bye", "bye-bye"]
+        self.__sys_commands__ = {
+            "close": [self.__exit__, True],
+            "exit": [self.__exit__, True],
+            "bye": [self.__exit__, True], 
+            "bye-bye": [self.__exit__, True],
+            "hello": [(lambda args: "How can I help you?"), False],
+            "clear": [self.__clear_console__, False],
+            "help": [self.__show_help__, False]
+        }
 
         self.__abook_commands__ = {
             "add": self.__assistant_handler__.add_contact,
@@ -49,11 +58,50 @@ class PersonalAssistant:
         }
 
     # privat methods
-    def __clear_console__(self):
+    def __exit__(self, args) -> str:
+        return "Bye Bye"
+    
+    #read ../README.md and show commands info
+    def __show_help__(self, args) -> str:
+        help :str = ""
+        symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`]"
+        try:
+            current_file_path = Path(__file__).parent.parent
+            file_path = current_file_path / "README.md"
+            mark_read_cmd: bool = False
+            with open(file = file_path, mode="r", encoding="UTF-8") as f:
+                for line in f:
+                    if line.find("# ") == 0: # read name of module
+                        res = re.findall(symb,line)
+                        help ="\n" + "".join(res).strip() + "\n"
+                    elif line.find("###") == 0: # read name of commands block
+                        res = re.findall(symb,line)
+                        help +="  " + "".join(res).strip() + ":\n"
+                        mark_read_cmd = True
+                        # skip two technical lines
+                        next(f)
+                        next(f)
+                    elif mark_read_cmd:
+                        desc = line.split("|")
+                        if len(desc) == 4: # read command and description
+                            help += f"      {desc[1].strip()}: {desc[2].strip()}\n"
+                        else:
+                            mark_read_cmd = False
+                            help += "\n"       
+        except FileNotFoundError:
+            pass
+        except StopIteration:
+            pass
+
+        return help
+    
+    def __clear_console__(self, args) -> str:
         if os.name == 'nt':  # For Windows
             os.system('cls')
         else:  # For macOS and Linux
             os.system('clear')
+
+        return ""
 
     def __load_abook__(self, file_name: str) -> address_book.AddressBook:
         try:
@@ -97,6 +145,7 @@ class PersonalAssistant:
         cmd = cmd.strip().lower()
         return cmd, *args
 
+    @input_error
     def __run_command__(self, user_input: str) -> bool:
         command, *args = self.__parse_input__(user_input)
 
@@ -108,13 +157,10 @@ class PersonalAssistant:
             print(self.__abook_commands__[command](args, self.__abook__))
             if not command.startswith("get"):
                 self.__save__()
-        elif command in self.__exit_commands__:
-            print("Good bye!")
-            return True
-        elif command == "hello":
-            print("How can I help you?")
-        elif command == "clear":
-            self.__clear_console__()
+        elif command in self.__sys_commands__:
+            print(self.__sys_commands__[command][0](args))
+            if self.__sys_commands__[command][1]:
+                return True
         else:
             print("Invalid command.")
             suggestions_list = self.get_suggestion(command)
@@ -133,13 +179,10 @@ class PersonalAssistant:
 
     # public methods
     @input_error
-    def get_suggestion(self, command) -> list | None:
-        # cutoff=0.5 означає, що команда має бути схожа принаймні на 50%
-        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=3, cutoff=0.5)
-        if len(matches) == 0:
-            matches = difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=3, cutoff=0.5)
-        if len(matches) == 0:
-            matches = difflib.get_close_matches(command, self.__exit_commands__, n=3, cutoff=0.5)
+    def get_suggestion(self, command: str, count: int = 1, prc: float = 0.6) -> list | None:
+        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=count, cutoff=max(0.2,min(1,prc)))
+        matches += difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=count, cutoff=max(0.2,min(1,prc)))
+        matches += difflib.get_close_matches(command, self.__sys_commands__, n=count, cutoff=max(0.2,min(1,prc)))
         return matches
 
     def apply_suggestion(self, params: str) -> bool:
