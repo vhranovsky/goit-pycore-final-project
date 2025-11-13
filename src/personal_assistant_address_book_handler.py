@@ -170,7 +170,7 @@ class PersonalAssistantAddressBookHandler:
         return str(record) if record is not None else "Record is missing."
 
     @input_error
-    def get_birthdays(self, args: list, book: address_book.AddressBook) -> str:
+    def get_upcoming_birthdays(self, args: list, book: address_book.AddressBook) -> str:
         try:
             days: int = int(args[0]) if len(args) > 0 else 7
         except Exception:
