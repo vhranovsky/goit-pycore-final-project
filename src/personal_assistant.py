@@ -139,8 +139,5 @@ class PersonalAssistant:
         self.__save__()
 
 
-if __name__ == "__main__":
-    PersonalAssistant().run()
-
 def run():
     PersonalAssistant().run()
