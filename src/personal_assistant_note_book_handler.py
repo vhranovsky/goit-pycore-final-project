@@ -1,5 +1,5 @@
-import note_book
-from general import input_error
+from . import note_book
+from .general import input_error
 
 
 class PersonalAssistantNoteBookHandler:
