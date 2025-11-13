@@ -1,6 +1,6 @@
-import address_book
+from . import address_book
 import os
-from general import input_error
+from .general import input_error
 
 
 class PersonalAssistantAddressBookHandler:

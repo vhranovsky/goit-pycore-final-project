@@ -1,9 +1,9 @@
-import address_book
-import note_book
+from . import address_book
+from . import note_book
 import pickle
 import os
-from personal_assistant_address_book_handler import PersonalAssistantAddressBookHandler
-from general import input_error
+from .personal_assistant_address_book_handler import PersonalAssistantAddressBookHandler
+from .general import input_error
 import difflib
 
 
@@ -43,12 +43,16 @@ class PersonalAssistant:
                 return pickle.load(f)
         except FileNotFoundError:
             return address_book.AddressBook()
+        except ModuleNotFoundError:
+            return address_book.AddressBook()
 
     def __load_nbook__(self, file_name: str) -> note_book.NoteBook:
         try:
             with open(file_name, "rb") as f:
                 return pickle.load(f)
         except FileNotFoundError:
+            return note_book.NoteBook()
+        except ModuleNotFoundError:
             return note_book.NoteBook()
 
     def __save__(self, save_folder_path: str = None):
@@ -113,11 +117,11 @@ class PersonalAssistant:
     @input_error
     def get_suggestion(self, command) -> list | None:
         # cutoff=0.5 означає, що команда має бути схожа принаймні на 50%
-        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=1, cutoff=0.5)
+        matches = difflib.get_close_matches(command, self.__abook_commands__.keys(), n=3, cutoff=0.5)
         if len(matches) == 0:
-            matches = difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=1, cutoff=0.5)
+            matches = difflib.get_close_matches(command, self.__nbook_commands__.keys(), n=3, cutoff=0.5)
         if len(matches) == 0:
-            matches = difflib.get_close_matches(command, self.__exit_commands__, n=1, cutoff=0.5)
+            matches = difflib.get_close_matches(command, self.__exit_commands__, n=3, cutoff=0.5)
         return matches
 
     def apply_suggestion(self, params: str) -> bool:

@@ -1,5 +1,5 @@
 from collections import UserDict
-from address_book import Field
+from .address_book import Field
 
 
 # Клас для тегів нотаток.

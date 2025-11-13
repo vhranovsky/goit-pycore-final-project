@@ -1,9 +1,9 @@
 from collections import UserDict
 import re
 from datetime import datetime, timedelta
-from general import ValidPhoneError
-from general import ValidEmailError
-from general import ValidBdayError
+from .general import ValidPhoneError
+from .general import ValidEmailError
+from .general import ValidBdayError
 
 
 # --- БЛОК ОСНОВНИХ КЛАСІВ AddressBook ---
