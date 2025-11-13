@@ -19,6 +19,18 @@ class ValidBdayError(ValidError):
 class ValidEmailError(ValidError):
     pass
 
+# Виняток для невалідного контенту нотатки.
+class ValidNoteContentError(ValidError):
+    pass
+
+# Виняток для невалідного тегу.
+class ValidTagError(ValidError):
+    pass
+
+# Виняток для невалідного пошукового запиту.
+class ValidSearchQueryError(ValidError):
+    pass
+
 
 # Константи
 INVALID_PHONE = "Inavlid phone number! " \
@@ -28,6 +40,9 @@ KEY_ERROR = "Record is missing!"
 INVALID_COMMAND = "Enter valid command."
 INVALID_BDAY = "Invalid date format. Use DD.MM.YYYY"
 INVALID_EMAIl = "Invalid email format. Use xxx@xxx.xx"
+INVALID_NOTE_CONTENT = "Note content cannot be empty."
+INVALID_TAG = "Tag cannot be empty."
+INVALID_SEARCH_QUERY = "Search query cannot be empty."
 
 
 # Декоратор
@@ -45,6 +60,12 @@ def input_error(func):
             return INVALID_BDAY
         except ValidEmailError:
             return INVALID_EMAIl
+        except ValidNoteContentError:
+            return INVALID_NOTE_CONTENT
+        except ValidTagError:
+            return INVALID_TAG
+        except ValidSearchQueryError:
+            return INVALID_SEARCH_QUERY
         except ValueError:
             return INVALID_ARGUMENTS
         except AttributeError:
