@@ -10,4 +10,4 @@ keywords = ["Assistant", "Contacts", "AddressBook", "NoteBook", "Neoversity", "P
 [project.dependencies]
 
 [project.scripts]
-my_command = "personal_assistant.py:run"
+my_command = "main.py"
