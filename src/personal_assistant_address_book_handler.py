@@ -47,6 +47,14 @@ class PersonalAssistantAddressBookHandler:
         return message
 
     @input_error
+    def delete_contact(self, args: list, book: address_book.AddressBook) -> str:
+        name = args[0]
+        name = name.capitalize()
+
+        book.delete(name)
+        return f"Contact {name} deleted."
+
+    @input_error
     def add_email(self, args: list, book: address_book.AddressBook) -> str:
         name, email, *_ = args
 
@@ -77,6 +85,18 @@ class PersonalAssistantAddressBookHandler:
 
         record.add_phone(phone)
         return message
+
+    @input_error
+    def delete_phone(self, args: list, book: address_book.AddressBook) -> str:
+        name, phone, *_ = args
+
+        name = name.capitalize()
+        record = book.find(name)
+        if record.find_phone(phone):
+            record.remove_phone(phone)
+            return f"Phone {phone} removed for contact {name}"
+
+        return f"{name} does not have phone number {phone}"
 
     @input_error
     def add_address(self, args: list, book: address_book.AddressBook) -> str:

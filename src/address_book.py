@@ -113,17 +113,17 @@ class Record:
         self.address = Address(address)
 
     def remove_phone(self, phone_number: str):
-        phone_to_remove = self.find_phone(phone_number)
+        phone_to_remove = self.find_phone(Phone(phone_number).value)  # use Phone(phone_number) for validating phone number
         if phone_to_remove:
             self.phones.remove(phone_to_remove)
 
     def edit_phone(self, old_phone_number: str, new_phone_number: str):
-        phone_to_edit = self.find_phone(old_phone_number)
+        phone_to_edit = self.find_phone(Phone(old_phone_number).value)  # use Phone(old_phone_number) for validating phone number
         if phone_to_edit is not None:
             phone_to_edit.value = new_phone_number
 
     def find_phone(self, phone_number: str) -> Phone | None:
-        phones = list(filter(lambda phone: phone.value == phone_number, self.phones))
+        phones = list(filter(lambda phone: phone.value == Phone(phone_number).value, self.phones))  # use Phone(phone_number) for validating phone number
         return phones[0] if len(phones) > 0 else None
 
     def __str__(self) -> str:
@@ -149,8 +149,7 @@ class AddressBook(UserDict):
         return self.data.get(name)
 
     def delete(self, name: str):
-        if name in self.data:
-            del self.data[name]
+        del self.data[name]
 
     def get_upcoming_birthdays(self, days: int = 7) -> list:
         result = []

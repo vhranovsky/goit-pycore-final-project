@@ -31,7 +31,7 @@ class PersonalAssistant:
         }
 
         self.__abook_commands__ = {
-            "add": self.__assistant_handler__.add_contact,
+            "add-contact": self.__assistant_handler__.add_contact,
             "add-phone": self.__assistant_handler__.add_phone,
             "add-email": self.__assistant_handler__.add_email,
             "add-birthday": self.__assistant_handler__.add_birthday,
@@ -44,7 +44,9 @@ class PersonalAssistant:
             "change-phone": self.__assistant_handler__.change_phone,
             "change-email": self.__assistant_handler__.change_email,
             "change-birthday": self.__assistant_handler__.add_birthday,
-            "change-address": self.__assistant_handler__.add_address
+            "change-address": self.__assistant_handler__.add_address,
+            "delete-contact": self.__assistant_handler__.delete_contact,
+            "delete-phone": self.__assistant_handler__.delete_phone
          }
 
         self.__nbook_commands__ = {
