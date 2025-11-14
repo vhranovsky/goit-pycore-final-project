@@ -175,7 +175,7 @@ class PersonalAssistantAddressBookHandler:
             days: int = int(args[0]) if len(args) > 0 else 7
         except Exception:
             days = 7
-            
+
         return book.get_upcoming_birthdays(days)
 
     def get_all_contacts(self, args: list, book: address_book.AddressBook) -> str:

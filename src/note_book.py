@@ -6,6 +6,7 @@ from .general import (
     ValidSearchQueryError,
 )
 
+
 # Клас для контенту нотатки з валідацією.
 class NoteContent(Field):
 
@@ -19,6 +20,7 @@ class NoteContent(Field):
         if not isinstance(text, str) or not text.strip():
             raise ValidNoteContentError()
         self.__value = text
+
 
 # Клас для тегів нотаток з валідацією.
 class Tag(Field):

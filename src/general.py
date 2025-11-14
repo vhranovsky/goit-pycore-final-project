@@ -19,13 +19,16 @@ class ValidBdayError(ValidError):
 class ValidEmailError(ValidError):
     pass
 
+
 # Виняток для невалідного контенту нотатки.
 class ValidNoteContentError(ValidError):
     pass
 
+
 # Виняток для невалідного тегу.
 class ValidTagError(ValidError):
     pass
+
 
 # Виняток для невалідного пошукового запиту.
 class ValidSearchQueryError(ValidError):
