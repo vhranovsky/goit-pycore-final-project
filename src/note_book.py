@@ -69,7 +69,7 @@ class Note:
 
     def __str__(self):
         tags_str = ", ".join(str(t) for t in self.tags) or "No tags"
-        return f"[ID: {self.id}] | Теги: [{tags_str}]\n  {self.content.value}\n"
+        return f"   [ID: {self.id}] | Теги: [{tags_str}]\n      {self.content.value}\n"
 
     def __repr__(self):
         return str(self)

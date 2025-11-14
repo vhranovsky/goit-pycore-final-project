@@ -39,7 +39,7 @@ class PersonalAssistant:
             "get-birthday": self.__assistant_handler__.get_birthday,
             "get-upcoming-birthdays": self.__assistant_handler__.get_upcoming_birthdays,
             "get-phone": self.__assistant_handler__.get_phone_by_name,
-            "get-all": self.__assistant_handler__.get_all_contacts,
+            "get-contacts": self.__assistant_handler__.get_all_contacts,
             "get-info": self.__assistant_handler__.get_contact_info,
             "change-phone": self.__assistant_handler__.change_phone,
             "change-email": self.__assistant_handler__.change_email,
