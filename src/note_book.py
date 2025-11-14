@@ -6,6 +6,7 @@ from .general import (
     ValidSearchQueryError,
 )
 
+
 # Клас для контенту нотатки з валідацією.
 class NoteContent(Field):
 
@@ -19,6 +20,7 @@ class NoteContent(Field):
         if not isinstance(text, str) or not text.strip():
             raise ValidNoteContentError()
         self.__value = text
+
 
 # Клас для тегів нотаток з валідацією.
 class Tag(Field):
@@ -67,7 +69,7 @@ class Note:
 
     def __str__(self):
         tags_str = ", ".join(str(t) for t in self.tags) or "No tags"
-        return f"[ID: {self.id}] | Теги: [{tags_str}]\n  {self.content.value}\n"
+        return f"   [ID: {self.id}] | Теги: [{tags_str}]\n      {self.content.value}\n"
 
     def __repr__(self):
         return str(self)

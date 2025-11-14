@@ -10,6 +10,7 @@ import re
 from pathlib import Path
 from . import __version__
 
+
 # Наш бот
 class PersonalAssistant:
     def __init__(self):
@@ -21,7 +22,7 @@ class PersonalAssistant:
         self.__sys_commands__ = {
             "close": [self.__exit__, True],
             "exit": [self.__exit__, True],
-            "bye": [self.__exit__, True], 
+            "bye": [self.__exit__, True],
             "bye-bye": [self.__exit__, True],
             "hello": [(lambda args: "How can I help you?"), False],
             "clear": [self.__clear_console__, False],
@@ -30,7 +31,7 @@ class PersonalAssistant:
         }
 
         self.__abook_commands__ = {
-            "add": self.__assistant_handler__.add_contact,
+            "add-contact": self.__assistant_handler__.add_contact,
             "add-phone": self.__assistant_handler__.add_phone,
             "add-email": self.__assistant_handler__.add_email,
             "add-birthday": self.__assistant_handler__.add_birthday,
@@ -38,12 +39,14 @@ class PersonalAssistant:
             "get-birthday": self.__assistant_handler__.get_birthday,
             "get-upcoming-birthdays": self.__assistant_handler__.get_upcoming_birthdays,
             "get-phone": self.__assistant_handler__.get_phone_by_name,
-            "get-all": self.__assistant_handler__.get_all_contacts,
+            "get-contacts": self.__assistant_handler__.get_all_contacts,
             "get-info": self.__assistant_handler__.get_contact_info,
             "change-phone": self.__assistant_handler__.change_phone,
             "change-email": self.__assistant_handler__.change_email,
             "change-birthday": self.__assistant_handler__.add_birthday,
-            "change-address": self.__assistant_handler__.add_address
+            "change-address": self.__assistant_handler__.add_address,
+            "delete-contact": self.__assistant_handler__.delete_contact,
+            "delete-phone": self.__assistant_handler__.delete_phone
          }
 
         self.__nbook_commands__ = {
@@ -64,41 +67,41 @@ class PersonalAssistant:
     # privat methods
     def __exit__(self, args) -> str:
         return "Bye Bye"
-    
-    #read ../README.md and show commands info
+
+    # read ../README.md and show commands info
     def __show_help__(self, args) -> str:
-        help :str = ""
+        help: str = ""
         symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`]"
         try:
             current_file_path = Path(__file__).parent.parent
             file_path = current_file_path / "README.md"
             mark_read_cmd: bool = False
-            with open(file = file_path, mode="r", encoding="UTF-8") as f:
+            with open(file=file_path, mode="r", encoding="UTF-8") as f:
                 for line in f:
-                    if line.find("# ") == 0: # read name of module
-                        res = re.findall(symb,line)
-                        help ="\n" + "".join(res).strip() + "\n"
-                    elif line.find("###") == 0: # read name of commands block
-                        res = re.findall(symb,line)
-                        help +="  " + "".join(res).strip() + ":\n"
+                    if line.find("# ") == 0:  # read name of module
+                        res = re.findall(symb, line)
+                        help = "\n" + "".join(res).strip() + "\n"
+                    elif line.find("###") == 0:  # read name of commands block
+                        res = re.findall(symb, line)
+                        help += "  " + "".join(res).strip() + ":\n"
                         mark_read_cmd = True
                         # skip two technical lines
                         next(f)
                         next(f)
                     elif mark_read_cmd:
                         desc = line.split("|")
-                        if len(desc) == 4: # read command and description
+                        if len(desc) == 4:  # read command and description
                             help += f"      {desc[1].strip()}: {desc[2].strip()}\n"
                         else:
                             mark_read_cmd = False
-                            help += "\n"       
+                            help += "\n"
         except FileNotFoundError:
             pass
         except StopIteration:
             pass
 
         return help
-    
+
     def __clear_console__(self, args) -> str:
         if os.name == 'nt':  # For Windows
             os.system('cls')
@@ -186,8 +189,8 @@ class PersonalAssistant:
     def get_suggestion(self, command: str, count: int = 1, prc: float = 0.6) -> list | None:
         matches: list = []
         for cmd_dic in self.__pool_commands__:
-            matches += difflib.get_close_matches(command, cmd_dic.keys(), n=count, cutoff=max(0.2,min(1,prc)))
-    
+            matches += difflib.get_close_matches(command, cmd_dic.keys(), n=count, cutoff=max(0.2, min(1, prc)))
+
         return matches
 
     def apply_suggestion(self, params: str) -> bool:
