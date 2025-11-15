@@ -84,7 +84,7 @@ class PersonalAssistant:
                         help = "\n" + "".join(res).strip() + "\n"
                     elif line.find("**") == 0:  # read how enter commands
                         res = re.findall(symb, line)
-                        help += "\n" + "".join(res).strip() + "\n"
+                        help += "\n  " + "".join(res).strip() + "\n"
                         mark_enter_cmd = True
                     elif line.find("###") == 0:  # read name of commands block
                         res = re.findall(symb, line)
@@ -102,7 +102,7 @@ class PersonalAssistant:
                             help += "\n"
                     elif mark_enter_cmd:
                         if line.find("*") == 0:
-                            help += "   " + "".join(re.findall(symb, line)).strip() + "\n"
+                            help += "      " + "".join(re.findall(symb, line)).strip() + "\n"
                         else:
                             mark_enter_cmd = False
                             help += "\n"
