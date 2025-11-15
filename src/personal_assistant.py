@@ -71,7 +71,7 @@ class PersonalAssistant:
     # read ../README.md and show commands info
     def __show_help__(self, args) -> str:
         help: str = ""
-        symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`<>\[\] \(\)]"
+        symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`<>\[\] \(\)\:]"
         try:
             current_file_path = Path(__file__).parent.parent
             file_path = current_file_path / "README.md"
