@@ -172,7 +172,8 @@ class PersonalAssistant:
             print("Invalid command.")
             suggestions_list = self.get_suggestion(command)
             if suggestions_list is not None and len(suggestions_list) > 0:
-                print(f"    Did you mean: {", ".join(suggestions_list)}")
+                commands_str: str = ", ".join(suggestions_list)
+                print(f"    Did you mean: {commands_str}")
                 return self.apply_suggestion(suggestions_list[0]+" "+" ".join(args))
 
         return False
