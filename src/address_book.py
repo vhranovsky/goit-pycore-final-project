@@ -228,8 +228,7 @@ class AddressBook(UserDict):
         col_widths = [len(h) for h in headers]
         for row in rows:
             for i, cell in enumerate(row):
-                if len(cell) > col_widths[i]:
-                    col_widths[i] = len(cell)
+                col_widths[i] = max(col_widths[i], len(cell))
 
         def format_row(items):
             return " | ".join(item.ljust(col_widths[i]) for i, item in enumerate(items))
