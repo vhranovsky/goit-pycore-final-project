@@ -171,6 +171,9 @@ class PersonalAssistant:
         else:
             print("Invalid command.")
             suggestions_list = self.get_suggestion(command)
+            if suggestions_list is None or len(suggestions_list) == 0:
+                suggestions_list = self.get_suggestion(command, 1, 0.45)  # шукаю з меншою точністю команди
+
             if suggestions_list is not None and len(suggestions_list) > 0:
                 commands_str: str = ", ".join(suggestions_list)
                 print(f"    Did you mean: {commands_str}")
