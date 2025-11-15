@@ -11,7 +11,7 @@ from pathlib import Path
 from . import __version__
 
 
-# Наш бот
+# Main Class
 class PersonalAssistant:
     def __init__(self):
         self.__abook__ = None

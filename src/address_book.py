@@ -175,7 +175,7 @@ class AddressBook(UserDict):
 
                 time_delta = user_bday_date_corrected - curr_date
                 if time_delta.days >= 0 and time_delta.days <= days:
-                    result.append(f"{record.name.value}'s birthday {user_bday_date_corrected.strftime("%d.%m.%Y")}")
+                    result.append(f"{record.name.value}'s birthday {user_bday_date_corrected.strftime('%d.%m.%Y')}")
         return result
 
     # Пошук контактів за частковим збігом в імені,
