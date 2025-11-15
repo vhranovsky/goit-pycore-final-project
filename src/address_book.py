@@ -126,6 +126,20 @@ class Record:
         phones = list(filter(lambda phone: phone.value == Phone(phone_number).value, self.phones))  # use Phone(phone_number) for validating phone number
         return phones[0] if len(phones) > 0 else None
 
+    def get_table_row(self) -> list[str]:
+        phones_str = ", ".join(str(p) for p in self.phones) or "Not set"
+        bday_str = str(self.birthday) if self.birthday else "Not set"
+        email_str = str(self.email) if self.email else "Not set"
+        address_str = str(self.address) if self.address else "Not set"
+
+        return [
+            self.name.value,
+            phones_str,
+            email_str,
+            bday_str,
+            address_str,
+        ]
+
     def __str__(self) -> str:
         phones_str = ", ".join(str(p) for p in self.phones) or "None"
         bday_str = str(self.birthday) if self.birthday else "Not set"
@@ -135,8 +149,9 @@ class Record:
         return (f"  Contact: {self.name.value}\n"
                 f"      Phones: {phones_str}\n"
                 f"      Email: {email_str}\n"
-                f"      Adress: {address_str}\n"
-                f"      Birthday: {bday_str}")
+                f"      Birthday: {bday_str}\n"
+                f"      Adress: {address_str}"
+                )
 
 
 # Клас для зберігання адресної книги.
@@ -208,4 +223,25 @@ class AddressBook(UserDict):
         if not self.data:
             return "Address book is empty."
 
-        return "\n".join(str(record) for record in self.data.values())
+        headers = ["Name", "Phone", "Email", "Birthday", "Address"]
+        rows = [record.get_table_row() for record in self.data.values()]
+        col_widths = [len(h) for h in headers]
+        for row in rows:
+            for i, cell in enumerate(row):
+                if len(cell) > col_widths[i]:
+                    col_widths[i] = len(cell)
+
+        def format_row(items):
+            return " | ".join(item.ljust(col_widths[i]) for i, item in enumerate(items))
+
+        header_str = format_row(headers)
+        separator_str = "-+-".join("-" * w for w in col_widths)
+        row_strings = [format_row(row) for row in rows]
+
+        return f"\n{header_str}\n{separator_str}\n" + "\n".join(row_strings) + "\n"
+
+    #  def __str__(self):
+    #    if not self.data:
+    #        return "Address book is empty."
+    #
+    #    return "\n".join(str(record) for record in self.data.values())

@@ -71,16 +71,21 @@ class PersonalAssistant:
     # read ../README.md and show commands info
     def __show_help__(self, args) -> str:
         help: str = ""
-        symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`]"
+        symb = r"[а-яА-Яa-zA-Z іїІЇєЄ -\"`<>\[\] \(\)]"
         try:
             current_file_path = Path(__file__).parent.parent
             file_path = current_file_path / "README.md"
             mark_read_cmd: bool = False
+            mark_enter_cmd: bool = False
             with open(file=file_path, mode="r", encoding="UTF-8") as f:
                 for line in f:
                     if line.find("# ") == 0:  # read name of module
                         res = re.findall(symb, line)
                         help = "\n" + "".join(res).strip() + "\n"
+                    elif line.find("**") == 0:  # read how enter commands
+                        res = re.findall(symb, line)
+                        help += "\n" + "".join(res).strip() + "\n"
+                        mark_enter_cmd = True
                     elif line.find("###") == 0:  # read name of commands block
                         res = re.findall(symb, line)
                         help += "  " + "".join(res).strip() + ":\n"
@@ -94,6 +99,12 @@ class PersonalAssistant:
                             help += f"      {desc[1].strip()}: {desc[2].strip()}\n"
                         else:
                             mark_read_cmd = False
+                            help += "\n"
+                    elif mark_enter_cmd:
+                        if line.find("*") == 0:
+                            help += "   " + "".join(re.findall(symb, line)).strip() + "\n"
+                        else:
+                            mark_enter_cmd = False
                             help += "\n"
         except FileNotFoundError:
             pass
